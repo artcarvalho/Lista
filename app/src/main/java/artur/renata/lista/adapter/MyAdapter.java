@@ -19,7 +19,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     MainActivity mainActivity;
     List<MyItem> itens;
 
-    public MyAdapter(List<MyItem> itens){
+    public MyAdapter(MainActivity mainActivity, List<MyItem> itens){
         this.mainActivity = mainActivity;
         this.itens = itens;
     }
@@ -49,6 +49,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
+
         return itens.size();
     }
 }

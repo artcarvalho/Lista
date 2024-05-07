@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         RecyclerView rvItens = findViewById(R.id.rvItens);
-        myAdapter = new MyAdapter(this.itens);
+        myAdapter = new MyAdapter(this, this.itens);
         rvItens.setAdapter(myAdapter);
         rvItens.setHasFixedSize(true);
 
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == NEW_ITEM_REQUEST){
             if(resultCode == Activity.RESULT_OK){
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 myItem.description = data.getStringExtra("description");
                 myItem.photo = data.getData();
                 itens.add(myItem);
+                myAdapter.notifyItemInserted(itens.size()-1);
             }
         }
     }

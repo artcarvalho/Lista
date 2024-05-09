@@ -37,19 +37,18 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         MyItem myItem = itens.get(position);
         View v = holder.itemView;
 
-        ImageView imvfoto = v.findViewById(R.id.imvfoto);
-        imvfoto.setImageURI(myItem.photo);
+        ImageView imvPhoto = v.findViewById(R.id.imvfoto);
+        imvPhoto.setImageURI(myItem.photo);
 
         TextView tvTitle = v.findViewById(R.id.tvTitle);
         tvTitle.setText(myItem.title);
 
-        TextView tvdesc = v.findViewById(R.id.tvdesc);
-        tvdesc.setText(myItem.description);
+        TextView tvDesc = v.findViewById(R.id.tvdesc);
+        tvDesc.setText(myItem.description);
     }
 
     @Override
     public int getItemCount() {
-
         return itens.size();
     }
 }

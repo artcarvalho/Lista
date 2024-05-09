@@ -22,49 +22,52 @@ public class NewItemActivity extends AppCompatActivity {
     Uri photoSelected = null;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) { //Método Construtor dos novos itens
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_item);
+        setContentView(R.layout.activity_new_item); //definindo a tela
 
-        ImageButton imgCI = findViewById(R.id.imbCI);
-        imgCI.setOnClickListener(new View.OnClickListener() {
+        ImageButton imgCI = findViewById(R.id.imbCI); //definindo o botão de escolher as imagens
+        imgCI.setOnClickListener(new View.OnClickListener() { //declarando um objeto que espera ser selecionado
             @Override
             public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, PHOTO_PICKER_REQUEST);
+                Intent photoPickerIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT); //intenção declarada para escolher a foto
+                photoPickerIntent.setType("image/*"); //define a imagem
+                startActivityForResult(photoPickerIntent, PHOTO_PICKER_REQUEST); //começa a atividade enquanto esperar o intent retornar um valor
             }
         });
 
-        Button btnAddItem = findViewById(R.id.btnAddItem);
-        btnAddItem.setOnClickListener(new View.OnClickListener() {
+        Button btnAddItem = findViewById(R.id.btnAddItem); //botão de adicionar item a lista
+        btnAddItem.setOnClickListener(new View.OnClickListener() { //objeto que vÊ se o botão foi apertado
             @Override
-            public void onClick(View v){
-                if (photoSelected == null){
+            public void onClick(View v){ //função que acontece caso o click aconteça
+
+                if (photoSelected == null){ //condição que observa se a foto é valida
                     Toast.makeText(NewItemActivity.this, "È necessário Selecionar uma imagem!", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                EditText etTitle = findViewById(R.id.etTitle);
+                EditText etTitle = findViewById(R.id.etTitle); //declara o titulo
                 String title = etTitle.getText().toString();
-                if(title.isEmpty()){
+
+                if(title.isEmpty()){ //verifica se o titulo é válido
                     Toast.makeText(NewItemActivity.this, "É necessário Inserir um Título", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                EditText etDesc = findViewById(R.id.etDesc);
+                EditText etDesc = findViewById(R.id.etDesc); //declara a descrição
                 String desc = etDesc.getText().toString();
-                if(desc.isEmpty()){
+
+                if(desc.isEmpty()){  //verifica se a descrição é válida
                     Toast.makeText(NewItemActivity.this, "È necessário inserir uma descrição", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                Intent i = new Intent();
-                i.setData(photoSelected);
-                i.putExtra("title", title);
-                i.putExtra("description", desc);
-                setResult(Activity.RESULT_OK, i);
-                finish();
+                Intent i = new Intent(); //nova intent
+                i.setData(photoSelected); //adiciona a foto na intent para ser enviada pra outra tela
+                i.putExtra("title", title); //envia o titulo na intent
+                i.putExtra("description", desc); //envia a descrição na intent
+                setResult(Activity.RESULT_OK, i); //envia OK como resultado na intent
+                finish(); //finaliza a tela
             }
         });
 
@@ -77,8 +80,8 @@ public class NewItemActivity extends AppCompatActivity {
         if(requestCode == PHOTO_PICKER_REQUEST) {
             if(resultCode == Activity.RESULT_OK){
                 photoSelected = data.getData();
-                ImageView imvfotoPreview = findViewById(R.id.imvPhotoPreview);
-                imvfotoPreview.setImageURI(photoSelected);
+                ImageView imvFotoPreview = findViewById(R.id.imvPhotoPreview);
+                imvFotoPreview.setImageURI(photoSelected);
             }
         }
     }

@@ -2,6 +2,8 @@ package artur.renata.lista.activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,16 +17,25 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import artur.renata.lista.R;
+import artur.renata.lista.model.NewActivityViewModel;
 
 public class NewItemActivity extends AppCompatActivity {
 
     static int PHOTO_PICKER_REQUEST = 1;
-    Uri photoSelected = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { //Método Construtor dos novos itens
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_item); //definindo a tela
+
+        NewActivityViewModel vm = new ViewModelProvider( this ).get( NewActivityViewModel.class );
+
+        Uri selectPhotoLocation = vm.getSelectPhotoLocation();
+        if(selectPhotoLocation != null) {
+            ImageView imvfotoPreview = findViewById(R.id.imvPhotoPreview);
+            imvfotoPreview.setImageURI(selectPhotoLocation);
+        }
+
 
         ImageButton imgCI = findViewById(R.id.imbCI); //definindo o botão de escolher as imagens
         imgCI.setOnClickListener(new View.OnClickListener() { //declarando um objeto que espera ser selecionado
@@ -41,6 +52,9 @@ public class NewItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){ //função que acontece caso o click aconteça
 
+                NewActivityViewModel vm = new ViewModelProvider( NewItemActivity.this ).get( NewActivityViewModel.class );
+
+                Uri photoSelected = vm.getSelectPhotoLocation();
                 if (photoSelected == null){ //condição que observa se a foto é valida
                     Toast.makeText(NewItemActivity.this, "È necessário Selecionar uma imagem!", Toast.LENGTH_LONG).show();
                     return;
@@ -79,9 +93,11 @@ public class NewItemActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == PHOTO_PICKER_REQUEST) {
             if(resultCode == Activity.RESULT_OK){
-                photoSelected = data.getData();
+                Uri photoSelected = data.getData();
                 ImageView imvFotoPreview = findViewById(R.id.imvPhotoPreview);
                 imvFotoPreview.setImageURI(photoSelected);
+                NewActivityViewModel vm = new ViewModelProvider(this).get(NewActivityViewModel.class);
+                vm.setSelectPhotoLocation(photoSelected);
             }
         }
     }

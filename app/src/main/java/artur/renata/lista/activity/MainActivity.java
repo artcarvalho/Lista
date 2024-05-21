@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         MainActivityViewModel vm = new ViewModelProvider(this).get(MainActivityViewModel.class);
         List<MyItem> itens = vm.getItens();
+        // O Viewmodel referente a mainActvityViewModel é obtido. Em seguida, a lista de itens é obtida a parir do Viewmodel e repassada para o Adapter
 
         myAdapter = new MyAdapter(this, itens); //cria um objeto da classe MyAdapter
         rvItens.setAdapter(myAdapter); //configurando display da lista
@@ -89,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
                 MainActivityViewModel vm = new ViewModelProvider(this).get(MainActivityViewModel.class);
                 List<MyItem> itens = vm.getItens();
+                //obtemos em seguida a lista de itens que o viewModel guarda e guardamos o novo item dentro dessa lista. dessa forma, os itens não estão mais guardados em mainActivity, mas sim em mainActivityViewModel
 
                 itens.add(myItem); // adiciona o item com todos seus valores definidos À tela principal
                 myAdapter.notifyItemInserted(itens.size()-1); //notifica que o item foi adicionado para que seja redesenhado no display
